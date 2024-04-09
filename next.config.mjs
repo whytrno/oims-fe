@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        apiUrl: 'http://localhost:8000/api',
-        domain: 'http://localhost:3000'
+        apiUrl: 'https://oimsapps.my.id/api',
+        domain: 'https://oims-apps.my.id'
     },
     images: {
         domains: ['localhost'],
