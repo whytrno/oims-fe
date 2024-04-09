@@ -13,23 +13,29 @@ import React from "react";
 
 const BreadcrumbNav = () => {
     const pathName = usePathname();
-    const path = pathName === '/' ? [''] : pathName.split('/')
+    const path = pathName === '/' ? [''] : pathName.split('/');
+
+    const newPath = path.map((item, index) => {
+        if (index === 0) return '';
+        return isNaN(Number(item)) ? item : 'Detail';
+    });
 
     return (
         <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
                 {
-                    path.map((item, index) => {
-                        const breadcrumbPath = '/' + path.slice(0, index + 1).join('/');
+                    newPath.map((item, index) => {
+                        const breadcrumbPath = process.env.domain + newPath.slice(0, index + 1).join('/');
                         const breadcrumbLabel = item !== '' ? item.charAt(0).toUpperCase() + item.slice(1) :
                             <HomeIcon className={'size-4'}/>;
                         return (
                             <React.Fragment key={index}>
                                 <BreadcrumbItem>
-                                    <BreadcrumbLink href={breadcrumbPath}>{breadcrumbLabel}</BreadcrumbLink>
+                                    <BreadcrumbLink
+                                        href={breadcrumbPath}>{breadcrumbLabel}</BreadcrumbLink>
                                 </BreadcrumbItem>
                                 {
-                                    index < path.length - 1 && <BreadcrumbSeparator/>
+                                    index < newPath.length - 1 && <BreadcrumbSeparator/>
                                 }
                             </React.Fragment>
                         )

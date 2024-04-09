@@ -13,7 +13,7 @@ import {toast} from "sonner";
 import {deleteUser, getUser} from "@/api/users";
 import useUsersStore from "@/zustand/usersStore";
 
-const DeleteDataModal = ({id}: { id: string }) => {
+const DeleteDataModal = ({id}: { id: number }) => {
     const {setUsersData} = useUsersStore();
 
     const handleDelete = async () => {
@@ -42,7 +42,7 @@ const DeleteDataModal = ({id}: { id: string }) => {
                 <DialogHeader>
                     <DialogTitle>Delete data?</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when you're done.
+                        Make changes to your profile here. Click save when youre done.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

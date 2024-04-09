@@ -40,6 +40,7 @@ const LoginPage = () => {
                 });
 
                 const user = {
+                    user_id: profileResponse.data.data.id,
                     email: profileResponse.data.data.email,
                     role_id: profileResponse.data.data.role_id,
                     role: profileResponse.data.data.role.name,
@@ -51,7 +52,7 @@ const LoginPage = () => {
                 router.push("/");
             }
         } catch (error) {
-            setMessage(error.response.data.message)
+            setMessage(error)
         }
     };
 

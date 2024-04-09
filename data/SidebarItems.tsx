@@ -11,6 +11,7 @@ const SidebarItems = [
         title: 'Data Karyawan',
         path: '/karyawan',
         icon: <PersonIcon/>,
+        isActive: (currentPath: string) => currentPath.startsWith('/karyawan'),
     },
 ];
 

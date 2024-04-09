@@ -10,30 +10,43 @@ import {Button} from "@/components/ui/button";
 import {CircleUser} from "lucide-react";
 import Cookies from "js-cookie";
 import UserInfo from "@/components/UserInfo";
-import React from "react";
-
+import React, {useEffect, useState} from "react";
+import {UserInfoType} from "@/types/users";
+import Link from "next/link";
 
 const UserNavMenu = () => {
-    let user = Cookies.get("user");
-    if (typeof user === "string") {
-        user = JSON.parse(user);
+    const [user, setUser] = useState<UserInfoType>({
+        user_id: 0,
+        nama: "",
+        role: "",
+        role_id: 0,
+        foto: "",
+        email: "",
+    });
+
+    useEffect(() => {
+        const fetchUser = () => {
+            const userCookie = Cookies.get("user");
+            if (userCookie) {
+                const parsedUser = JSON.parse(userCookie);
+                setUser(parsedUser);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    const handleLogout = () => {
+        Cookies.remove("token");
+        Cookies.remove("user");
+        window.location.href = "/login";
     }
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <div className="flex gap-2 items-center">
-                    <UserInfo user={user}/>
-                    {/*{*/}
-                    {/*    user ? (*/}
-                    {/*        <UserInfo user={user}/>*/}
-                    {/*    ) : (*/}
-                    {/*        <div className="flex flex-col gap-2 items-end">*/}
-                    {/*            <Skeleton className="h-4 w-20"/>*/}
-                    {/*            <Skeleton className="h-3 w-14"/>*/}
-                    {/*        </div>*/}
-                    {/*    )*/}
-                    {/*}*/}
+                    <UserInfo {...user}/>
 
                     <Button variant="secondary" size="icon" className="rounded-full">
                         <CircleUser className="h-5 w-5"/>
@@ -42,12 +55,16 @@ const UserNavMenu = () => {
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>
+                    <Link href="/profile">My Account</Link>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                    Logout
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );

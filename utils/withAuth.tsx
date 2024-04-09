@@ -12,8 +12,15 @@ const withAuth = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
             const token = Cookies.get("token");
             const user = Cookies.get("user");
 
+            let parsedUser = null;
+            if (user) {
+                parsedUser = JSON.parse(user);
+            }
+
             if (!token || !user) {
                 router.push("/login");
+            } else if (parsedUser && parsedUser.role === "user") {
+                router.push("/profile");
             }
         }, []);
 

@@ -1,5 +1,5 @@
 import {
-    ColumnDef,
+    AccessorKeyColumnDef,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -10,24 +10,20 @@ import {
 } from "@tanstack/react-table";
 
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table";
-import DataTablePagination from "@/components/datatable/DataTablePagination";
-import React, {useEffect} from "react";
+import DataTablePagination from "@/components/datatable/main/DataTablePagination";
+import React, {useEffect, useState} from "react";
 import {Input} from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
+    columns: AccessorKeyColumnDef<TData, TValue>[];
     data: TData[];
     hideColumns?: string[];
 }
 
-export function DataTable<TData, TValue>({
-                                             columns,
-                                             data,
-                                             hideColumns = []
-                                         }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>([])
-    const [globalFilter, setGlobalFilter] = React.useState<string>("");
-    const [columnVisibility, setColumnVisibility] = React.useState<{ [key: string]: boolean }>(() => {
+export function DataTable<TData, TValue>({columns, data, hideColumns = []}: DataTableProps<TData, TValue>) {
+    const [sorting, setSorting] = useState<SortingState>([])
+    const [globalFilter, setGlobalFilter] = useState<string>("");
+    const [columnVisibility, setColumnVisibility] = useState<{ [key: string]: boolean }>(() => {
         const initialVisibility: { [key: string]: boolean } = {};
         columns.forEach(column => {
             initialVisibility[column.accessorKey as string] = true;
@@ -78,7 +74,7 @@ export function DataTable<TData, TValue>({
             <DataTablePagination table={table}/>
 
             <div className="rounded-md border">
-                <Table>
+                <Table className="overflow-x-auto">
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>

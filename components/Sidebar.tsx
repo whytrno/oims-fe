@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import SidebarItems from "@/data/SidebarItems";
 import React from "react";
-import {cn} from "@/lib/utils";
 import {usePathname} from 'next/navigation'
 
 const Sidebar = () => {
@@ -26,10 +25,10 @@ const Sidebar = () => {
                                 <Link
                                     key={index}
                                     href={item.path}
-                                    className={cn('flex items-center gap-3 rounded-lg px-5 py-3 transition-all', {
-                                        'text-muted-foreground hover:text-primary': item.path !== pathName,
-                                        'bg-primary text-white': item.path === pathName,
-                                    })}
+                                    className={`flex items-center gap-3 rounded-lg px-5 py-3 transition-all 
+                    ${(item.path !== pathName && (item.isActive && !item.isActive(pathName))) ? 'text-muted-foreground hover:text-primary' : ''} 
+                    ${(item.path === pathName || (item.isActive && item.isActive(pathName))) ? 'bg-primary text-white' : ''}
+                                    `}
                                 >
                                     {React.cloneElement(item.icon, {className: 'h-4 w-4'})}
                                     {item.title}
@@ -37,6 +36,7 @@ const Sidebar = () => {
                             ))
                         }
                     </nav>
+
                 </div>
             </div>
         </div>
