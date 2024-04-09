@@ -52,7 +52,7 @@ const LoginPage = () => {
                 router.push("/");
             }
         } catch (error) {
-            setMessage(error)
+            setMessage("An error occurred. Please try again.")
         }
     };
 

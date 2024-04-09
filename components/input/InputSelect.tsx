@@ -10,7 +10,7 @@ const InputSelect = ({control, label, name, placeholder, selectOptions}: FormFie
             render={({field}) => (
                 <FormItem>
                     <FormLabel>{label}</FormLabel>
-                    <Select readonly={false} onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                             <SelectTrigger>
                                 <SelectValue className="capitalize"
