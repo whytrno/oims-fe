@@ -26,7 +26,6 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {Input} from "@/components/ui/input";
 
 const formSchema = z.object({
-    foto: z.string().nullable(),
     nama: z.string().nullable(),
     no_hp: z.coerce.number().nullable(),
     nik: z.coerce.number().positive().gt(1000000000000000).lt(9999999999999999).nullable(),
@@ -85,7 +84,6 @@ const KaryawanDetailPage = ({params}: {
     const form = useForm<ProfileType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            foto: user?.profile?.foto,
             nama: user?.profile?.nama,
             no_hp: user?.profile?.no_hp,
             nik: user?.profile?.nik,
@@ -138,9 +136,11 @@ const KaryawanDetailPage = ({params}: {
 
     function handleSubmit(values: z.infer<typeof formSchema>) {
         const formData = new FormData();
-        if (fotoInput) {
+
+        if (fotoInput && fotoInput !== null) {
             formData.append("foto", fotoInput);
         }
+
         Object.entries(values).forEach(([key, value]) => {
             if (value !== null) {
                 formData.append(key, value as string);
